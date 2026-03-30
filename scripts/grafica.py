@@ -69,7 +69,7 @@ def generar_grafico(comparacion):
         color=[color(v) for v in df_grafico["CumplimientoSemanal"]],
         edgecolor="none",
         alpha=0.85,
-        label="Reunión Semanal"
+        
     )
 
     bars2 = ax.barh(
@@ -79,7 +79,7 @@ def generar_grafico(comparacion):
         color=[color(v) for v in df_grafico["CumplimientoIntermedia"]],
         edgecolor="none",
         alpha=0.85,
-        label="Reunión Intermedia"
+        
     )
 
     # =========================
