@@ -88,3 +88,5 @@ generar_grafico(comparacion)
 print("Gráfico actualizado")
 
 print("Proceso finalizado correctamente ✅")
+
+print("Proceso finalizado correctamente ✅")
