@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-
+#commit
 def generar_grafico(comparacion):
 
     print("Generando gráfico...")
