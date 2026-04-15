@@ -1,8 +1,11 @@
 name: EjecutarScripts
 
 on:
-  push:
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/**'
+      - 'output/**'
 
 jobs:
   run-python:
@@ -12,7 +15,12 @@ jobs:
       - name: Clonar repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # 🔥 importante para evitar conflictos
+          fetch-depth: 0
+
+      - name: Configurar Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
 
       - name: Instalar Python
         uses: actions/setup-python@v4
@@ -28,15 +36,11 @@ jobs:
       - name: Ejecutar JSON
         run: python scripts/generar_json.py
 
-      - name: Guardar cambios
+      - name: Guardar cambios (FORZADO)
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-
           git add .
           git commit -m "Actualiza outputs" || echo "Sin cambios"
-
-          # 🔥 TRAER CAMBIOS ANTES DE SUBIR (LA CLAVE)
           git pull origin main --rebase
+          git push origin main
 
           git push origin main
