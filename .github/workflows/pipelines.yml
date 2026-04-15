@@ -16,6 +16,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Sincronizar con repo remoto
+        run: |
+          git pull origin main --rebase
+
       - name: Instalar Python
         uses: actions/setup-python@v5
         with:
@@ -25,22 +29,15 @@ jobs:
         run: |
           pip install pandas numpy openpyxl matplotlib
  
-      - name: Ejecutar script de procesamiento
+      - name: Ejecutar scripts
         run: |
           python scripts/main.py
           python scripts/generar_json.py
- 
-      - name: Verificar archivos generados
-        run: |
-          echo "Contenido carpeta output:"
-          ls -la output
  
       - name: Guardar resultados en el repositorio
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-
-          git pull origin main --rebase
 
           git add output/*
           git diff --cached --quiet || git commit -m "Actualizar resultados reuniones"
