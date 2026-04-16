@@ -18,7 +18,7 @@ jobs:
       - name: Clonar repositorio
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # 🔥 IMPORTANTE para evitar errores de push
+          fetch-depth: 0
 
       - name: Instalar Python
         uses: actions/setup-python@v5
@@ -30,28 +30,33 @@ jobs:
           pip install pandas numpy openpyxl matplotlib
 
       # =========================
-      # 🔥 PROCESO COMPLETO
+      # 🔥 LIMPIAR OUTPUT (CLAVE)
       # =========================
+      - name: Limpiar carpeta output
+        run: |
+          rm -rf output
+          mkdir output
 
-      - name: Ejecutar main (genera outputs + gráfica)
+      # =========================
+      # 🔥 GENERAR ARCHIVOS
+      # =========================
+      - name: Ejecutar main (genera gráfica)
         run: python scripts/main.py
 
-      - name: Generar JSON (para el dashboard)
+      - name: Generar JSON (detalle.json)
         run: python scripts/generar_json.py
 
       # =========================
-      # 📦 VERIFICACIÓN
+      # 📦 DEBUG (MUY IMPORTANTE)
       # =========================
-
       - name: Verificar archivos generados
         run: |
           echo "Contenido carpeta output:"
           ls -la output
 
       # =========================
-      # 🚀 GUARDAR CAMBIOS
+      # 🚀 COMMIT SEGURO
       # =========================
-
       - name: Commit y push
         run: |
           git config user.name "github-actions"
@@ -61,5 +66,5 @@ jobs:
 
           git diff --cached --quiet || git commit -m "Actualizar outputs y JSON"
 
-          git pull --rebase origin main || true
-          git push || true
+          git pull origin main --rebase || true
+          git push origin main || true
