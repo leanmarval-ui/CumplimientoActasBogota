@@ -152,8 +152,18 @@ def procesar_todo(df_proyectos, df_intermedia, df_semanal, fechas_mes):
     col_fecha_semanal = "Fecha de Fin" if "Fecha de Fin" in df_semanal.columns else [c for c in df_semanal.columns if "fecha" in c.lower()][0]
 
     # NORMALIZAR
-    df_intermedia[col_fecha_intermedia] = pd.to_datetime(df_intermedia[col_fecha_intermedia]).dt.normalize()
-    df_semanal[col_fecha_semanal] = pd.to_datetime(df_semanal[col_fecha_semanal]).dt.normalize()
+    df_intermedia[col_fecha_intermedia] = pd.to_datetime(
+        df_intermedia[col_fecha_intermedia],
+        errors="coerce"
+    ).dt.normalize()
+
+    df_semanal[col_fecha_semanal] = pd.to_datetime(
+        df_semanal[col_fecha_semanal],
+        errors="coerce"
+    ).dt.normalize()
+
+    df_intermedia = df_intermedia.dropna(subset=[col_fecha_intermedia])
+    df_semanal = df_semanal.dropna(subset=[col_fecha_semanal])
 
     # =========================
     # 🔥 AJUSTE DE FECHA DE CIERRE REAL (FIX PLATAFORMA)
