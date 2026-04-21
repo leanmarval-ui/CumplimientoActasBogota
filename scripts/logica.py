@@ -148,8 +148,8 @@ def procesar_todo(df_proyectos, df_intermedia, df_semanal, fechas_mes):
     # =========================
     # DETECTAR COLUMNA DE FECHA
     # =========================
-    col_fecha_intermedia = "Fecha de Fin" if "fechaFin" in df_intermedia.columns else [c for c in df_intermedia.columns if "fecha" in c.lower()][0]
-    col_fecha_semanal = "Fecha de Fin" if "fechaFin" in df_semanal.columns else [c for c in df_semanal.columns if "fecha" in c.lower()][0]
+    col_fecha_intermedia = "Fecha de Fin" if "Fecha de Fin" in df_intermedia.columns else [c for c in df_intermedia.columns if "fecha" in c.lower()][0]
+    col_fecha_semanal = "Fecha de Fin" if "Fecha de Fin" in df_semanal.columns else [c for c in df_semanal.columns if "fecha" in c.lower()][0]
 
     # NORMALIZAR
     df_intermedia[col_fecha_intermedia] = pd.to_datetime(df_intermedia[col_fecha_intermedia]).dt.normalize()
